@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'com.oracletest'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    implementation 'io.dropwizard:dropwizard-core:2.0.28'
+    implementation 'io.dropwizard:dropwizard-configuration:2.0.28'
+    implementation 'io.dropwizard:dropwizard-auth:2.0.28'
+    implementation 'io.dropwizard:dropwizard-db:2.0.28'
+    implementation 'io.dropwizard:dropwizard-dependencies:2.0.28'
+    implementation 'io.dropwizard:dropwizard-jersey:2.0.28'
+    implementation 'io.dropwizard:dropwizard-jackson:2.0.28'
+    implementation 'io.dropwizard:dropwizard-jetty:2.0.28'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
