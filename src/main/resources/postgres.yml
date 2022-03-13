@@ -1,6 +1,3 @@
-template: Hello, %s!
-defaultName: Stranger
-
 datasource:
   # the name of your JDBC driver
   driverClass: org.postgresql.Driver
@@ -9,7 +6,7 @@ datasource:
   user: postgres
 
   # the password
-  password: changeitlater
+  password: sample12
 
   # the JDBC URL
   url: jdbc:postgresql://localhost:5432/taskdb

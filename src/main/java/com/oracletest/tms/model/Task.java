@@ -29,6 +29,9 @@ public class Task {
         this.status = status;
     }
 
+    public Task() {
+    }
+
     @JsonProperty
     public int getId() {
         return id;
