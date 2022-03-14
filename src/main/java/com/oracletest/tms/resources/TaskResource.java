@@ -2,25 +2,33 @@ package com.oracletest.tms.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.oracletest.tms.TMSDBFactory;
+import com.oracletest.tms.facade.TaskActionFacade;
 import com.oracletest.tms.model.Task;
-import org.jdbi.v3.core.Jdbi;
+import com.oracletest.tms.model.TaskAction;
+import com.oracletest.tms.model.TaskConstants;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Path("/task")
 @Produces(MediaType.APPLICATION_JSON)
 @Named
+@Slf4j
 public class TaskResource {
     private final TMSDBFactory dbFactory;
+    private final TaskActionFacade taskRepository;
 
     @Inject
-    public TaskResource(TMSDBFactory dbFactory) {
+    public TaskResource(TMSDBFactory dbFactory, TaskActionFacade taskRepository) {
         this.dbFactory = dbFactory;
+        this.taskRepository = taskRepository;
     }
 
     @Path("/{id}")
@@ -33,15 +41,41 @@ public class TaskResource {
         );
     }
 
-    @Path("create")
+    @Path("/create")
     @POST
     @Timed
     @Consumes(MediaType.APPLICATION_JSON)
-    public Task createNew(Task task) {
-        String insertSql = "INSERT INTO TASK(short_desc, long_desc, create_date, target_date, created_by, status) values (" +
-            "'First one', 'First One long', current_date, current_date, 'test', 'open')";
-        dbFactory.getJdbi().withHandle(h -> h.execute(insertSql));
-        return task;
+    public TaskAction createNew(Task task) {
+        return taskRepository.persistTaskWithAction(task);
     }
+
+    @Path("/modify")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    public TaskAction modifyTask(Task task) {
+        task.setStatus(TaskConstants.ACTION.MODIFY.name().toLowerCase(Locale.ROOT));
+        return taskRepository.modifyTask(task);
+    }
+
+    @Path("/close")
+    @POST
+    @Timed
+    @Consumes(MediaType.APPLICATION_JSON)
+    public TaskAction closeTask(Task task) {
+        log.info("task received = {}", task);
+        task.setStatus(TaskConstants.ACTION.CLOSE.name().toLowerCase(Locale.ROOT));
+        return taskRepository.modifyTask(task);
+    }
+
+    @Path("/mytasks")
+    @GET
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public List<Task> findMyTasks(@HeaderParam("user") String user) {
+        log.info("user supplied from client = {}", user);
+        assert user != null;
+        return taskRepository.findTaskByUser(user);
+    }
+
 }
 

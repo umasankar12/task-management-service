@@ -14,15 +14,17 @@ public class TMSDBFactory {
     private final JdbiFactory jdbiFactory;
     private final Environment environment;
     private final TaskManagementConfig configuration;
+    private final Jdbi jdbi;
 
     @Inject
     public TMSDBFactory(JdbiFactory jdbiFactory, Environment environment, TaskManagementConfig configuration) {
         this.jdbiFactory = jdbiFactory;
         this.environment = environment;
         this.configuration = configuration;
+        this.jdbi = jdbiFactory.build(environment, configuration.getDataSourceFactory(), "postgres");
     }
 
     public Jdbi getJdbi() {
-        return jdbiFactory.build(environment, configuration.getDataSourceFactory(), "postgres");
+        return jdbi;
     }
 }

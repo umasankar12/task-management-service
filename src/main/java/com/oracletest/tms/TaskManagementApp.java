@@ -1,6 +1,7 @@
 package com.oracletest.tms;
 
 import io.dropwizard.Application;
+import io.dropwizard.jdbi3.bundles.JdbiExceptionsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,8 @@ public class TaskManagementApp extends Application<TaskManagementConfig> {
                 .enableAutoConfig(basePackage)
                 .build()
         );
+
+        //bootstrap.addBundle(new JdbiExceptionsBundle());
     }
 
 }

@@ -24,7 +24,6 @@ dependencies {
     implementation 'io.dropwizard:dropwizard-jackson:2.0.28'
     implementation 'io.dropwizard:dropwizard-jetty:2.0.28'
     implementation 'org.postgresql:postgresql:42.1.4'
-    implementation 'com.google.guava:guava:31.0.1-jre'
     implementation 'com.google.inject:guice-bom:5.1.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'

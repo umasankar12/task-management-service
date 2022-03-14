@@ -1,22 +1,33 @@
 package com.oracletest.tms.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.time.LocalDate;
 
+@ToString
 public class Task {
 
+    @ColumnName("id")
     int id;
 
+    @ColumnName("short_desc")
     String shortDesc;
 
+    @ColumnName("long_desc")
     String longDesc;
 
+    @ColumnName("create_date")
     LocalDate createDate;
 
+    @ColumnName("target_date")
     LocalDate targetDate;
 
+    @ColumnName("created_by")
     String createdBy;
 
+    @ColumnName("status")
     String status;
 
     public Task(int id, String shortDesc, String longDesc, LocalDate createDate, LocalDate targetDate, String createdBy, String status) {
@@ -37,9 +48,8 @@ public class Task {
         return id;
     }
 
-    public Task setId(int id) {
+    public void setId(int id) {
         this.id = id;
-        return this;
     }
 
     @JsonProperty
@@ -47,9 +57,8 @@ public class Task {
         return shortDesc;
     }
 
-    public Task setShortDesc(String shortDesc) {
+    public void setShortDesc(String shortDesc) {
         this.shortDesc = shortDesc;
-        return this;
     }
 
     @JsonProperty
@@ -57,9 +66,8 @@ public class Task {
         return longDesc;
     }
 
-    public Task setLongDesc(String longDesc) {
+    public void setLongDesc(String longDesc) {
         this.longDesc = longDesc;
-        return this;
     }
 
     @JsonProperty
@@ -67,9 +75,8 @@ public class Task {
         return createDate;
     }
 
-    public Task setCreateDate(LocalDate createDate) {
+    public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
-        return this;
     }
 
     @JsonProperty
@@ -77,9 +84,8 @@ public class Task {
         return targetDate;
     }
 
-    public Task setTargetDate(LocalDate targetDate) {
+    public void setTargetDate(LocalDate targetDate) {
         this.targetDate = targetDate;
-        return this;
     }
 
     @JsonProperty
@@ -87,9 +93,8 @@ public class Task {
         return createdBy;
     }
 
-    public Task setCreatedBy(String createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
-        return this;
     }
 
     @JsonProperty
@@ -97,8 +102,7 @@ public class Task {
         return status;
     }
 
-    public Task setStatus(String status) {
+    public void setStatus(String status) {
         this.status = status;
-        return this;
     }
 }
