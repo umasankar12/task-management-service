@@ -3,7 +3,6 @@ package com.oracletest.tms.facade;
 import com.oracletest.tms.TMSDBFactory;
 import com.oracletest.tms.model.Task;
 import com.oracletest.tms.model.TaskAction;
-import com.oracletest.tms.model.TaskConstants;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.inject.Inject;

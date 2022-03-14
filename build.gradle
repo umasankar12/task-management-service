@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group 'com.oracletest'
@@ -21,7 +22,6 @@ dependencies {
     implementation 'io.dropwizard:dropwizard-dependencies:2.0.28'
     implementation 'ru.vyarus:dropwizard-guicey:5.4.2'
     implementation 'io.dropwizard:dropwizard-jersey:2.0.28'
-    implementation 'io.dropwizard:dropwizard-jackson:2.0.28'
     implementation 'io.dropwizard:dropwizard-jetty:2.0.28'
     implementation 'org.postgresql:postgresql:42.1.4'
     implementation 'com.google.inject:guice-bom:5.1.0'
@@ -32,4 +32,20 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.oracletest.tms.TaskManagementApp'
+    }
+}
+
+task customFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.oracletest.tms.TaskManagementApp'
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    archiveBaseName = "${rootProject.name}"
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
