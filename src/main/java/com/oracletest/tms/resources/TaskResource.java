@@ -1,12 +1,17 @@
 package com.oracletest.tms.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.core.json.JsonReadContext;
+import com.google.inject.servlet.RequestParameters;
 import com.oracletest.tms.TMSDBFactory;
 import com.oracletest.tms.facade.TaskActionFacade;
 import com.oracletest.tms.model.Task;
 import com.oracletest.tms.model.TaskAction;
 import com.oracletest.tms.model.TaskConstants;
+import com.oracletest.tms.model.TaskRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jetty.util.ajax.JSON;
+import org.glassfish.jersey.process.internal.RequestScoped;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -68,10 +73,9 @@ public class TaskResource {
         return taskRepository.modifyTask(task);
     }
 
-    @Path("/mytasks")
+    @Path("/mytasks/{user}")
     @GET
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public List<Task> findMyTasks(@HeaderParam("user") String user) {
+    public List<Task> findMyTasks(@PathParam("user") String user) {
         log.info("user supplied from client = {}", user);
         assert user != null;
         return taskRepository.findTaskByUser(user);

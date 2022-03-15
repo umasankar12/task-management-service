@@ -44,7 +44,14 @@ public class TaskActionFacade extends TMSDBRepository {
     }
 
     public List<Task> findTaskByUser(String user) {
-        return dao().findByUser(user);
+        var handle = getJdbi().open();
+        TaskDAO dao = handle.attach(TaskDAO.class);
+        try {
+            return dao.findByUser(user);
+        }
+        finally {
+            handle.close();
+        }
     }
 
     public Task persist(Task task) {
@@ -76,28 +83,33 @@ public class TaskActionFacade extends TMSDBRepository {
         assert inputTask.getId() != 0;
 
         return getJdbi().inTransaction(handle -> {
-            TaskDAO taskDAO = handle.attach(TaskDAO.class);
-            Task persisted = taskDAO.findById(inputTask);
-            log.info("Task Exists");
+            try{
+                TaskDAO taskDAO = handle.attach(TaskDAO.class);
+                Task persisted = taskDAO.findById(inputTask);
+                log.info("Task Exists");
 
-            log.info("Add action");
-            TaskActionDAO taskActionDAO = handle.attach(TaskActionDAO.class);
-            TaskAction taskAction = new TaskAction();
-            taskAction.setTaskId(persisted.getId());
-            taskAction.setUpdateBy(persisted.getCreatedBy());
-            taskAction.setAction(inputTask.getStatus());
-            taskAction.setUpdateTime(LocalDateTime.now());
-            taskAction.setPrevState(persisted.toString());
+                log.info("Add action");
+                TaskActionDAO taskActionDAO = handle.attach(TaskActionDAO.class);
+                TaskAction taskAction = new TaskAction();
+                taskAction.setTaskId(persisted.getId());
+                taskAction.setUpdateBy(persisted.getCreatedBy());
+                taskAction.setAction(inputTask.getStatus());
+                taskAction.setUpdateTime(LocalDateTime.now());
+                taskAction.setPrevState(persisted.toString());
 
-            if (inputTask.getShortDesc() != null)
-                persisted.setShortDesc(inputTask.getShortDesc());
-            if (inputTask.getLongDesc() != null)
-                persisted.setLongDesc(inputTask.getLongDesc());
-            persisted.setStatus(inputTask.getStatus());
-            taskDAO.update(persisted);
-            log.info("updated Task : {}", persisted);
+                if (inputTask.getShortDesc() != null)
+                    persisted.setShortDesc(inputTask.getShortDesc());
+                if (inputTask.getLongDesc() != null)
+                    persisted.setLongDesc(inputTask.getLongDesc());
+                persisted.setStatus(inputTask.getStatus());
+                taskDAO.update(persisted);
+                log.info("updated Task : {}", persisted);
 
-            return taskActionDAO.create(taskAction);
+                return taskActionDAO.create(taskAction);
+            }
+            finally {
+                handle.close();
+            }
         });
     }
 
