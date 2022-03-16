@@ -23,7 +23,7 @@ dependencies {
     implementation 'ru.vyarus:dropwizard-guicey:5.4.2'
     implementation 'io.dropwizard:dropwizard-jersey:2.0.28'
     implementation 'io.dropwizard:dropwizard-jetty:2.0.28'
-    implementation 'org.postgresql:postgresql:42.1.4'
+    implementation 'org.postgresql:postgresql:42.2.1'
     implementation 'com.google.inject:guice-bom:5.1.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'

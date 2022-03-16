@@ -5,6 +5,7 @@ import lombok.ToString;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @ToString
 public class Task {
@@ -85,7 +86,8 @@ public class Task {
     }
 
     public void setTargetDate(LocalDate targetDate) {
-        this.targetDate = targetDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.targetDate = LocalDate.parse(formatter.format(targetDate));
     }
 
     @JsonProperty

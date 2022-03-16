@@ -16,6 +16,7 @@ create table task_action
     update_by   varchar(20),
     update_time TIMESTAMP,
     action      varchar(100) NOT NULL,
+    prev_state varchar (5000),
     CONSTRAINT cx_fk_task_id FOREIGN KEY (task_id) REFERENCES task (id)
 );
 

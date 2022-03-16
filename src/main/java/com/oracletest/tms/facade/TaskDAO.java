@@ -7,6 +7,7 @@ import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskDAO {
 
@@ -26,4 +27,9 @@ public interface TaskDAO {
     @SqlQuery("Select * from Task where id=:id")
     @RegisterBeanMapper(Task.class)
     public Task findById(@BindBean Task task);
+
+    @SqlQuery("Select * from Task where id=?")
+    @RegisterBeanMapper(Task.class)
+    public Optional<Task> findById(Integer id);
+
 }

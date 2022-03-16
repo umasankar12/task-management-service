@@ -35,8 +35,14 @@ public class TaskActionFacade extends TMSDBRepository {
     }
 
     public Optional<Task> findById(Integer id) {
-        String sql = "SELECT * FROM Task where Id=?";
-        return Optional.empty();
+        var handle = getJdbi().open();
+        TaskDAO dao = handle.attach(TaskDAO.class);
+        try {
+            return dao.findById(id);
+        }
+        finally {
+            handle.close();
+        }
     }
 
     public List<Task> fetchAll() {

@@ -39,11 +39,9 @@ public class TaskResource {
     @Path("/{id}")
     @GET
     @Timed
-    public Task getTaskById(@PathParam("id") Optional<Integer> id) {
-        return new Task(
-            1, "short desc", "long desc", LocalDate.now(), LocalDate.now(),
-            "SomeUser", "OPEN"
-        );
+    public Task getTaskById(@PathParam("id") Integer id) {
+        Optional<Task> task = taskRepository.findById(id);
+        return task.isPresent()?task.get():new Task();
     }
 
     @Path("/create")
