@@ -114,7 +114,7 @@ public class TaskActionFacade extends TMSDBRepository {
                 return taskActionDAO.create(taskAction);
             }
             finally {
-                handle.close();
+                //handle.close();
             }
         });
     }

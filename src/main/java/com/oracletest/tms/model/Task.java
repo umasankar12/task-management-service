@@ -1,5 +1,6 @@
 package com.oracletest.tms.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
@@ -72,6 +73,7 @@ public class Task {
     }
 
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getCreateDate() {
         return createDate;
     }
@@ -81,6 +83,7 @@ public class Task {
     }
 
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate getTargetDate() {
         return targetDate;
     }

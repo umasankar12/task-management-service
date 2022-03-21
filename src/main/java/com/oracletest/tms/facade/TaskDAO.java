@@ -20,7 +20,7 @@ public interface TaskDAO {
     @RegisterFieldMapper(Task.class)
     public Task update(@BindBean Task task);
 
-    @SqlQuery("Select * from Task where created_by=?")
+    @SqlQuery("Select * from Task where created_by=? order by id desc")
     @RegisterBeanMapper(Task.class)
     public List<Task> findByUser(String user);
 
